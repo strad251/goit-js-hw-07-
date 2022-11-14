@@ -28,21 +28,26 @@ const openImg = event => {
   }
   const instance = basicLightbox.create(`
     <img src="${event.target.dataset.source}" width="800" height="600">
-`)
+`,
+    {
+      onShow: instance => {
+        document.addEventListener('keydown', onEscKeyDown);
+      },
+      onClose: instance => {
+        document.removeEventListener('keydown', onEscKeyDown);
+      },
+    }
+  );
 
   instance.show();
 
-  galleryContainer.addEventListener('keydown', event => {
+  function onEscKeyDown(event) {
     if (event.code === 'Escape') {
       instance.close();
     }
-  })
-  
-  console.log('hello')
+  }
 };
-
-
-
+  
 
 galleryContainer.addEventListener('click', openImg)
 
